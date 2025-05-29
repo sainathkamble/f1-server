@@ -14,6 +14,13 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
 
+// Serve static files
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Handle all other routes with index.html (React Router fix)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 //routes import
 import userRouter from "./routes/user.route.js";
